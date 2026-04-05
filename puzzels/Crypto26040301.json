@@ -1,210 +1,1018 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<title>Crypto26040303</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;min-height:100vh;touch-action:manipulation;}
-.header{background:#fff;border-bottom:1px solid #ddd;padding:12px 16px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10;}
-.title{font-weight:600;font-size:15px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.btn{padding:7px 14px;border-radius:8px;border:1px solid #ccc;background:#fff;font-size:13px;cursor:pointer;white-space:nowrap;-webkit-appearance:none;}
-.btn.active{background:#e0e7ff;border-color:#6366f1;}
-.container{padding:12px;display:flex;flex-direction:column;gap:12px;max-width:600px;margin:0 auto;}
-.grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table{border-collapse:collapse;}
-td{width:36px;height:36px;border:2px solid #888;position:relative;background:#fff;cursor:pointer;user-select:none;}
-td.black{background:#222;border-color:#222;}
-td.selected{background:#93c5fd;}
-td.highlight{background:#dbeafe;}
-td.correct{background:#bbf7d0;}
-td.wrong{background:#fecaca;}
-.cell-letter{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-transform:uppercase;pointer-events:none;}
-.cell-letter.ok{color:#15803d;}
-.cell-letter.err{color:#dc2626;}
-.num{position:absolute;top:1px;left:2px;font-size:8px;font-weight:600;color:#666;line-height:1;pointer-events:none;}
-.clues{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:480px){.clues{grid-template-columns:1fr;}}
-.clue-section h3{font-size:13px;font-weight:600;margin-bottom:6px;color:#333;}
-.clue-item{padding:6px 8px;border-radius:6px;font-size:13px;cursor:pointer;color:#222;line-height:1.4;margin-bottom:2px;}
-.clue-item.active{background:#e0e7ff;}
-.clue-num{font-weight:600;margin-right:4px;}
-.clue-len{color:#999;margin-left:3px;}
-.success{background:#dcfce7;color:#15803d;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;text-align:center;}
-#hiddenInput{position:fixed;top:-200px;left:-200px;width:1px;height:1px;opacity:0;font-size:16px;border:none;outline:none;background:transparent;}
-</style>
-</head>
-<body>
-<input id="hiddenInput" type="text" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"/>
-<div class="header">
-  <span class="title" id="ptitle"></span>
-  <button class="btn" id="btnCheck" onclick="toggleCheck()">Check</button>
-  <button class="btn" onclick="clearAll()">Leeg</button>
-</div>
-<div class="container">
-  <div id="complete" style="display:none" class="success">Puzzel opgelost!</div>
-  <div class="grid-wrap"><table id="grid"></table></div>
-  <div class="clues">
-    <div class="clue-section"><h3>Horizontaal</h3><div id="cluesAcross"></div></div>
-    <div class="clue-section"><h3>Verticaal</h3><div id="cluesDown"></div></div>
-  </div>
-</div>
-<script>
-const puzzle={"title":"Crypto26040303","rows":5,"cols":5,"blacks":[[false,false,false,false,false],[false,true,false,true,false],[false,false,false,true,false],[false,true,false,true,false],[false,false,false,false,false]],"letters":[["P","O","E","T","S"],["L","","E","","T"],["A","A","R","","O"],["A","","S","","R"],["T","O","T","E","M"]],"words":{"across":[{"n":1,"word":"POETS","cells":[[0,0],[0,1],[0,2],[0,3],[0,4]],"clue":"maak de grap schoon","r":0,"c":0},{"n":4,"word":"AAR","cells":[[2,0],[2,1],[2,2]],"clue":"twee zonder p","r":2,"c":0},{"n":5,"word":"TOTEM","cells":[[4,0],[4,1],[4,2],[4,3],[4,4]],"clue":"nader de paal","r":4,"c":0}],"down":[{"n":1,"word":"PLAAT","cells":[[0,0],[1,0],[2,0],[3,0],[4,0]],"clue":"ga hier niet op","r":0,"c":0},{"n":2,"word":"EERST","cells":[[0,2],[1,2],[2,2],[3,2],[4,2]],"clue":"niet de laatste, ofwel?","r":0,"c":2},{"n":3,"word":"STORM","cells":[[0,4],[1,4],[2,4],[3,4],[4,4]],"clue":"in een glas water","r":0,"c":4}]}};
-const {rows,cols,blacks,letters,words,title}=puzzle;
-let answers={},selected=null,selDir="across",checking=false;
-const hi=document.getElementById("hiddenInput");
-
-function cellKey(r,c){return r+","+c;}
-function getWordCells(r,c,dir){
-  if(dir==="across"){
-    let sc=c;while(sc>0&&!blacks[r][sc-1])sc--;
-    const cells=[];for(let cc=sc;cc<cols&&!blacks[r][cc];cc++)cells.push([r,cc]);
-    return cells.length>1?cells:null;
-  } else {
-    let sr=r;while(sr>0&&!blacks[sr-1][c])sr--;
-    const cells=[];for(let rr=sr;rr<rows&&!blacks[rr][c];rr++)cells.push([rr,c]);
-    return cells.length>1?cells:null;
-  }
-}
-function computeNums(){
-  const nums={};let n=1;
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-    if(blacks[r][c])continue;
-    const a=(c===0||blacks[r][c-1])&&c+1<cols&&!blacks[r][c+1];
-    const d=(r===0||blacks[r-1][c])&&r+1<rows&&!blacks[r+1][c];
-    if(a||d){nums[cellKey(r,c)]={n,across:a,down:d};n++;}
-  }
-  return nums;
-}
-const nums=computeNums();
-const tds={};
-
-function getActiveN(r,c,dir){
-  const w=getWordCells(r,c,dir);if(!w)return null;
-  const[sr,sc]=w[0];return nums[cellKey(sr,sc)]?.n;
-}
-
-function buildGrid(){
-  const tbl=document.getElementById("grid");
-  for(let r=0;r<rows;r++){
-    const tr=document.createElement("tr");
-    for(let c=0;c<cols;c++){
-      const td=document.createElement("td");
-      if(blacks[r][c]){td.className="black";}
-      else {
-        const num=nums[cellKey(r,c)]?.n;
-        if(num){const sp=document.createElement("span");sp.className="num";sp.textContent=num;td.appendChild(sp);}
-        const span=document.createElement("span");span.className="cell-letter";td.appendChild(span);
-        td.addEventListener("click",()=>selectCell(r,c));
-        tds[cellKey(r,c)]=td;
+{
+  "title": "Crypto26040401",
+  "rows": 10,
+  "cols": 10,
+  "blacks": [
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "letters": [
+    [
+      "S",
+      "C",
+      "H",
+      "E",
+      "R",
+      "M",
+      "",
+      "P",
+      "O",
+      "P"
+    ],
+    [
+      "",
+      "H",
+      "E",
+      "F",
+      "",
+      "E",
+      "L",
+      "",
+      "P",
+      "O"
+    ],
+    [
+      "H",
+      "E",
+      "E",
+      "T",
+      "",
+      "E",
+      "",
+      "K",
+      "A",
+      "P"
+    ],
+    [
+      "",
+      "F",
+      "R",
+      "E",
+      "Z",
+      "E",
+      "N",
+      "",
+      "",
+      "P"
+    ],
+    [
+      "S",
+      "",
+      "S",
+      "L",
+      "E",
+      "T",
+      "",
+      "R",
+      "",
+      "E"
+    ],
+    [
+      "C",
+      "",
+      "",
+      "I",
+      "",
+      "E",
+      "",
+      "A",
+      "A",
+      "N"
+    ],
+    [
+      "H",
+      "O",
+      "F",
+      "N",
+      "A",
+      "R",
+      "",
+      "T",
+      "A",
+      "K"
+    ],
+    [
+      "U",
+      "",
+      "",
+      "G",
+      "",
+      "",
+      "E",
+      "S",
+      "",
+      "A"
+    ],
+    [
+      "U",
+      "U",
+      "R",
+      "",
+      "",
+      "",
+      "R",
+      "",
+      "I",
+      "S"
+    ],
+    [
+      "R",
+      "I",
+      "E",
+      "T",
+      "",
+      "W",
+      "E",
+      "N",
+      "K",
+      "T"
+    ]
+  ],
+  "words": {
+    "across": [
+      {
+        "n": 1,
+        "word": "SCHERM",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "clue": "Shelter found in Nietzsche's remarkable philosophy (6)",
+        "r": 0,
+        "c": 0
+      },
+      {
+        "n": 6,
+        "word": "POP",
+        "cells": [
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            9
+          ]
+        ],
+        "clue": "Father's music briefly explodes (3)",
+        "r": 0,
+        "c": 7
+      },
+      {
+        "n": 9,
+        "word": "HEF",
+        "cells": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "clue": "Leader of Playboy mansion finally found in the buff (3)",
+        "r": 1,
+        "c": 1
+      },
+      {
+        "n": 10,
+        "word": "EL",
+        "cells": [
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ],
+        "clue": "Spanish article found in hotel lobby.",
+        "r": 1,
+        "c": 5
+      },
+      {
+        "n": 11,
+        "word": "PO",
+        "cells": [
+          [
+            1,
+            8
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "clue": "River in need of a toilet? (2)",
+        "r": 1,
+        "c": 8
+      },
+      {
+        "n": 12,
+        "word": "HEET",
+        "cells": [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "clue": "Fuel additive heats up without the last letter (4)",
+        "r": 2,
+        "c": 0
+      },
+      {
+        "n": 13,
+        "word": "KAP",
+        "cells": [
+          [
+            2,
+            7
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        "clue": "Captain's abbreviated rank found in a mishap? (3)",
+        "r": 2,
+        "c": 7
+      },
+      {
+        "n": 14,
+        "word": "FREZEN",
+        "cells": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "clue": "Chilled European currency initially fails to circulate (6)",
+        "r": 3,
+        "c": 1
+      },
+      {
+        "n": 17,
+        "word": "SLET",
+        "cells": [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "clue": "Rain lightly on the French ice (4)",
+        "r": 4,
+        "c": 2
+      },
+      {
+        "n": 19,
+        "word": "AAN",
+        "cells": [
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            9
+          ]
+        ],
+        "clue": "Article about a Northern African nation (3)",
+        "r": 5,
+        "c": 7
+      },
+      {
+        "n": 21,
+        "word": "HOFNAR",
+        "cells": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            6,
+            5
+          ]
+        ],
+        "clue": "Jester's horn blown backwards for court fool (6)",
+        "r": 6,
+        "c": 0
+      },
+      {
+        "n": 22,
+        "word": "TAK",
+        "cells": [
+          [
+            6,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            6,
+            9
+          ]
+        ],
+        "clue": "Scottish agreement found in intake (3)",
+        "r": 6,
+        "c": 7
+      },
+      {
+        "n": 23,
+        "word": "ES",
+        "cells": [
+          [
+            7,
+            6
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "clue": "Sound of relief from the east.",
+        "r": 7,
+        "c": 6
+      },
+      {
+        "n": 24,
+        "word": "UUR",
+        "cells": [
+          [
+            8,
+            0
+          ],
+          [
+            8,
+            1
+          ],
+          [
+            8,
+            2
+          ]
+        ],
+        "clue": "uw tijd",
+        "r": 8,
+        "c": 0
+      },
+      {
+        "n": 27,
+        "word": "IS",
+        "cells": [
+          [
+            8,
+            8
+          ],
+          [
+            8,
+            9
+          ]
+        ],
+        "clue": "het denkt dus",
+        "r": 8,
+        "c": 8
+      },
+      {
+        "n": 28,
+        "word": "RIET",
+        "cells": [
+          [
+            9,
+            0
+          ],
+          [
+            9,
+            1
+          ],
+          [
+            9,
+            2
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "clue": "geen twee b's",
+        "r": 9,
+        "c": 0
+      },
+      {
+        "n": 29,
+        "word": "WENKT",
+        "cells": [
+          [
+            9,
+            5
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            9,
+            7
+          ],
+          [
+            9,
+            8
+          ],
+          [
+            9,
+            9
+          ]
+        ],
+        "clue": "Upset at a noisy disturbance (4)",
+        "r": 9,
+        "c": 5
       }
-      tr.appendChild(td);
-    }
-    tbl.appendChild(tr);
+    ],
+    "down": [
+      {
+        "n": 2,
+        "word": "CHEF",
+        "cells": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "clue": "Head of catering having endless fun in the kitchen (4)",
+        "r": 0,
+        "c": 1
+      },
+      {
+        "n": 3,
+        "word": "HEERS",
+        "cells": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "clue": "Cheers without the opening act brings joy to the crowd.",
+        "r": 0,
+        "c": 2
+      },
+      {
+        "n": 4,
+        "word": "EFTELING",
+        "cells": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ]
+        ],
+        "clue": "Fairy-tale park's feeling disturbed without an 'a' (8)",
+        "r": 0,
+        "c": 3
+      },
+      {
+        "n": 5,
+        "word": "MEEETER",
+        "cells": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            6,
+            5
+          ]
+        ],
+        "clue": "Surveyors repeatedly keen to measure distances? (8)",
+        "r": 0,
+        "c": 5
+      },
+      {
+        "n": 7,
+        "word": "OPA",
+        "cells": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            2,
+            8
+          ]
+        ],
+        "clue": "Greek grandfather's exclamation at the party (3)",
+        "r": 0,
+        "c": 8
+      },
+      {
+        "n": 8,
+        "word": "POPPENKAST",
+        "cells": [
+          [
+            0,
+            9
+          ],
+          [
+            1,
+            9
+          ],
+          [
+            2,
+            9
+          ],
+          [
+            3,
+            9
+          ],
+          [
+            4,
+            9
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            9,
+            9
+          ]
+        ],
+        "clue": "heisa om katrien",
+        "r": 0,
+        "c": 9
+      },
+      {
+        "n": 15,
+        "word": "ZE",
+        "cells": [
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "clue": "Gender-neutral pronoun hiding in \"hazel eyes\"",
+        "r": 3,
+        "c": 4
+      },
+      {
+        "n": 16,
+        "word": "SCHUUR",
+        "cells": [
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            7,
+            0
+          ],
+          [
+            8,
+            0
+          ],
+          [
+            9,
+            0
+          ]
+        ],
+        "clue": "dit papier ligt erin",
+        "r": 4,
+        "c": 0
+      },
+      {
+        "n": 18,
+        "word": "RATS",
+        "cells": [
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "clue": "Rock band gnawing away at the edges of \"reality\"? (4)",
+        "r": 4,
+        "c": 7
+      },
+      {
+        "n": 20,
+        "word": "AA",
+        "cells": [
+          [
+            5,
+            8
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "clue": "eerste rivier, of twee",
+        "r": 5,
+        "c": 8
+      },
+      {
+        "n": 23,
+        "word": "ERE",
+        "cells": [
+          [
+            7,
+            6
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            9,
+            6
+          ]
+        ],
+        "clue": "omgekeerd loven",
+        "r": 7,
+        "c": 6
+      },
+      {
+        "n": 25,
+        "word": "UI",
+        "cells": [
+          [
+            8,
+            1
+          ],
+          [
+            9,
+            1
+          ]
+        ],
+        "clue": "hangt onder een koe",
+        "r": 8,
+        "c": 1
+      },
+      {
+        "n": 26,
+        "word": "RE",
+        "cells": [
+          [
+            8,
+            2
+          ],
+          [
+            9,
+            2
+          ]
+        ],
+        "clue": "tweede noot",
+        "r": 8,
+        "c": 2
+      },
+      {
+        "n": 27,
+        "word": "IK",
+        "cells": [
+          [
+            8,
+            8
+          ],
+          [
+            9,
+            8
+          ]
+        ],
+        "clue": "noot",
+        "r": 8,
+        "c": 8
+      }
+    ]
   }
 }
-
-function selectCell(r,c,dir){
-  if(blacks[r][c])return;
-  if(dir) selDir=dir;
-  else if(selected&&selected[0]===r&&selected[1]===c) selDir=selDir==="across"?"down":"across";
-  selected=[r,c];
-  hi.value="";
-  hi.focus();
-  render();
-}
-
-function render(){
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
-    if(blacks[r][c])continue;
-    const td=tds[cellKey(r,c)];if(!td)continue;
-    const isSel=selected&&selected[0]===r&&selected[1]===c;
-    const wCells=selected?getWordCells(selected[0],selected[1],selDir)||[]:[];
-    const isHi=wCells.some(([wr,wc])=>wr===r&&wc===c);
-    const ans=answers[cellKey(r,c)]||"";
-    const span=td.querySelector(".cell-letter");
-    span.textContent=ans;
-    span.className="cell-letter";
-    if(checking&&ans){span.classList.add(ans===letters[r][c]?"ok":"err");}
-    if(checking&&ans){td.className=ans===letters[r][c]?"correct":"wrong";}
-    else{td.className=isSel?"selected":isHi?"highlight":"";}
-  }
-  const an=selected?getActiveN(selected[0],selected[1],selDir):null;
-  document.querySelectorAll(".clue-item").forEach(el=>{
-    el.classList.toggle("active",el.dataset.n==an&&el.dataset.dir===selDir);
-  });
-  let done=true;
-  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
-    if(!blacks[r][c]&&answers[cellKey(r,c)]!==letters[r][c])done=false;
-  document.getElementById("complete").style.display=done?"block":"none";
-}
-
-hi.addEventListener("keydown",function(e){
-  if(!selected)return;
-  const[r,c]=selected;
-  const k=e.key.toUpperCase();
-  if(k==="BACKSPACE"){
-    e.preventDefault();
-    delete answers[cellKey(r,c)];
-    const w=getWordCells(r,c,selDir);
-    if(w){const i=w.findIndex(([wr,wc])=>wr===r&&wc===c);if(i>0){selected=w[i-1];}}
-    render();return;
-  }
-  if(k.length===1&&k.match(/[A-Z]/)){
-    e.preventDefault();
-    answers[cellKey(r,c)]=k;
-    if(selDir==="across"&&c+1<cols&&!blacks[r][c+1])selected=[r,c+1];
-    else if(selDir==="down"&&r+1<rows&&!blacks[r+1][c])selected=[r+1,c];
-    render();hi.value="";return;
-  }
-  if(k==="ARROWLEFT"&&c>0&&!blacks[r][c-1]){e.preventDefault();selected=[r,c-1];}
-  if(k==="ARROWRIGHT"&&c+1<cols&&!blacks[r][c+1]){e.preventDefault();selected=[r,c+1];}
-  if(k==="ARROWUP"&&r>0&&!blacks[r-1][c]){e.preventDefault();selected=[r-1,c];}
-  if(k==="ARROWDOWN"&&r+1<rows&&!blacks[r+1][c]){e.preventDefault();selected=[r+1,c];}
-  render();
-});
-
-// handle mobile input via input event (some Android keyboards)
-hi.addEventListener("input",function(){
-  if(!selected)return;
-  const val=hi.value.replace(/[^a-zA-Z]/g,"").toUpperCase();
-  if(!val){hi.value="";return;}
-  const k=val[val.length-1];
-  const[r,c]=selected;
-  answers[cellKey(r,c)]=k;
-  if(selDir==="across"&&c+1<cols&&!blacks[r][c+1])selected=[r,c+1];
-  else if(selDir==="down"&&r+1<rows&&!blacks[r+1][c])selected=[r+1,c];
-  hi.value="";render();
-});
-
-function toggleCheck(){checking=!checking;document.getElementById("btnCheck").classList.toggle("active",checking);render();}
-function clearAll(){answers={};checking=false;document.getElementById("btnCheck").classList.remove("active");render();}
-
-function buildClues(){
-  document.getElementById("ptitle").textContent=title||"Cryptogram";
-  const ac=document.getElementById("cluesAcross");
-  const dn=document.getElementById("cluesDown");
-  words.across.forEach(w=>{
-    const d=document.createElement("div");d.className="clue-item";d.dataset.n=w.n;d.dataset.dir="across";
-    d.innerHTML='<span class="clue-num">'+w.n+'.</span>'+w.clue+'<span class="clue-len">('+w.cells.length+')</span>';
-    d.onclick=()=>{selectCell(w.r,w.c,"across");};
-    ac.appendChild(d);
-  });
-  words.down.forEach(w=>{
-    const d=document.createElement("div");d.className="clue-item";d.dataset.n=w.n;d.dataset.dir="down";
-    d.innerHTML='<span class="clue-num">'+w.n+'.</span>'+w.clue+'<span class="clue-len">('+w.cells.length+')</span>';
-    d.onclick=()=>{selectCell(w.r,w.c,"down");};
-    dn.appendChild(d);
-  });
-}
-
-buildGrid();buildClues();render();
-// keep keyboard open on mobile when clicking grid
-document.getElementById("grid").addEventListener("touchstart",()=>{hi.focus();},{passive:true});
-</script>
-</body>
-</html>
