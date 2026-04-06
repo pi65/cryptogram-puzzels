@@ -1,0 +1,231 @@
+{
+  "title": "Crypto26040301",
+  "rows": 5,
+  "cols": 5,
+  "blacks": [
+    [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  ],
+  "letters": [
+    [
+      "S",
+      "T",
+      "O",
+      "E",
+      "P"
+    ],
+    [
+      "N",
+      "",
+      "B",
+      "",
+      "R"
+    ],
+    [
+      "E",
+      "",
+      "E",
+      "",
+      "I"
+    ],
+    [
+      "R",
+      "",
+      "R",
+      "",
+      "J"
+    ],
+    [
+      "T",
+      "E",
+      "",
+      "O",
+      "S"
+    ]
+  ],
+  "words": {
+    "across": [
+      {
+        "n": 1,
+        "word": "STOEP",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        "clue": "hoog trottoir",
+        "r": 0,
+        "c": 0
+      },
+      {
+        "n": 4,
+        "word": "TE",
+        "cells": [
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ],
+        "clue": "daar is overdaad",
+        "r": 4,
+        "c": 0
+      },
+      {
+        "n": 5,
+        "word": "OS",
+        "cells": [
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "clue": "dit rund runt je PC",
+        "r": 4,
+        "c": 3
+      }
+    ],
+    "down": [
+      {
+        "n": 1,
+        "word": "SNERT",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "clue": "slechte soep",
+        "r": 0,
+        "c": 0
+      },
+      {
+        "n": 2,
+        "word": "OBER",
+        "cells": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "clue": "deze kelner gaat er in duitsland overheen",
+        "r": 0,
+        "c": 2
+      },
+      {
+        "n": 3,
+        "word": "PRIJS",
+        "cells": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "clue": "de hond krijgt de laatste",
+        "r": 0,
+        "c": 4
+      }
+    ]
+  }
+}
