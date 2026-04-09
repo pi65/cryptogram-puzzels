@@ -1,0 +1,1018 @@
+{
+  "title": "Crypto26040401",
+  "rows": 10,
+  "cols": 10,
+  "blacks": [
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "letters": [
+    [
+      "S",
+      "C",
+      "H",
+      "E",
+      "R",
+      "M",
+      "",
+      "P",
+      "O",
+      "P"
+    ],
+    [
+      "",
+      "H",
+      "E",
+      "F",
+      "",
+      "E",
+      "L",
+      "",
+      "P",
+      "O"
+    ],
+    [
+      "H",
+      "E",
+      "E",
+      "T",
+      "",
+      "E",
+      "",
+      "K",
+      "A",
+      "P"
+    ],
+    [
+      "",
+      "F",
+      "R",
+      "E",
+      "Z",
+      "E",
+      "N",
+      "",
+      "",
+      "P"
+    ],
+    [
+      "S",
+      "",
+      "S",
+      "L",
+      "E",
+      "T",
+      "",
+      "R",
+      "",
+      "E"
+    ],
+    [
+      "C",
+      "",
+      "",
+      "I",
+      "",
+      "E",
+      "",
+      "A",
+      "A",
+      "N"
+    ],
+    [
+      "H",
+      "O",
+      "F",
+      "N",
+      "A",
+      "R",
+      "",
+      "T",
+      "A",
+      "K"
+    ],
+    [
+      "U",
+      "",
+      "",
+      "G",
+      "",
+      "",
+      "E",
+      "S",
+      "",
+      "A"
+    ],
+    [
+      "U",
+      "U",
+      "R",
+      "",
+      "",
+      "",
+      "R",
+      "",
+      "I",
+      "S"
+    ],
+    [
+      "R",
+      "I",
+      "E",
+      "T",
+      "",
+      "W",
+      "E",
+      "N",
+      "K",
+      "T"
+    ]
+  ],
+  "words": {
+    "across": [
+      {
+        "n": 1,
+        "word": "SCHERM",
+        "cells": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 0
+      },
+      {
+        "n": 6,
+        "word": "POP",
+        "cells": [
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            8
+          ],
+          [
+            0,
+            9
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 7
+      },
+      {
+        "n": 9,
+        "word": "HEF",
+        "cells": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 1,
+        "c": 1
+      },
+      {
+        "n": 10,
+        "word": "EL",
+        "cells": [
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 1,
+        "c": 5
+      },
+      {
+        "n": 11,
+        "word": "PO",
+        "cells": [
+          [
+            1,
+            8
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "clue": "Wat kost dat toilet?",
+        "r": 1,
+        "c": 8
+      },
+      {
+        "n": 12,
+        "word": "HEET",
+        "cells": [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 2,
+        "c": 0
+      },
+      {
+        "n": 13,
+        "word": "KAP",
+        "cells": [
+          [
+            2,
+            7
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            2,
+            9
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 2,
+        "c": 7
+      },
+      {
+        "n": 14,
+        "word": "FREZEN",
+        "cells": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 3,
+        "c": 1
+      },
+      {
+        "n": 17,
+        "word": "SLET",
+        "cells": [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 4,
+        "c": 2
+      },
+      {
+        "n": 19,
+        "word": "AAN",
+        "cells": [
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            9
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 5,
+        "c": 7
+      },
+      {
+        "n": 21,
+        "word": "HOFNAR",
+        "cells": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            6,
+            4
+          ],
+          [
+            6,
+            5
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 6,
+        "c": 0
+      },
+      {
+        "n": 22,
+        "word": "TAK",
+        "cells": [
+          [
+            6,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            6,
+            9
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 6,
+        "c": 7
+      },
+      {
+        "n": 23,
+        "word": "ES",
+        "cells": [
+          [
+            7,
+            6
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 7,
+        "c": 6
+      },
+      {
+        "n": 24,
+        "word": "UUR",
+        "cells": [
+          [
+            8,
+            0
+          ],
+          [
+            8,
+            1
+          ],
+          [
+            8,
+            2
+          ]
+        ],
+        "clue": "uw tijd",
+        "r": 8,
+        "c": 0
+      },
+      {
+        "n": 27,
+        "word": "IS",
+        "cells": [
+          [
+            8,
+            8
+          ],
+          [
+            8,
+            9
+          ]
+        ],
+        "clue": "het denkt dus",
+        "r": 8,
+        "c": 8
+      },
+      {
+        "n": 28,
+        "word": "RIET",
+        "cells": [
+          [
+            9,
+            0
+          ],
+          [
+            9,
+            1
+          ],
+          [
+            9,
+            2
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 9,
+        "c": 0
+      },
+      {
+        "n": 29,
+        "word": "WENKT",
+        "cells": [
+          [
+            9,
+            5
+          ],
+          [
+            9,
+            6
+          ],
+          [
+            9,
+            7
+          ],
+          [
+            9,
+            8
+          ],
+          [
+            9,
+            9
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 9,
+        "c": 5
+      }
+    ],
+    "down": [
+      {
+        "n": 2,
+        "word": "CHEF",
+        "cells": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 1
+      },
+      {
+        "n": 3,
+        "word": "HEERS",
+        "cells": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 2
+      },
+      {
+        "n": 4,
+        "word": "EFTELING",
+        "cells": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ]
+        ],
+        "clue": "Fairy-tale park's feeling disturbed without an 'a' (8)",
+        "r": 0,
+        "c": 3
+      },
+      {
+        "n": 5,
+        "word": "MEEETER",
+        "cells": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            6,
+            5
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 5
+      },
+      {
+        "n": 7,
+        "word": "OPA",
+        "cells": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            2,
+            8
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 0,
+        "c": 8
+      },
+      {
+        "n": 8,
+        "word": "POPPENKAST",
+        "cells": [
+          [
+            0,
+            9
+          ],
+          [
+            1,
+            9
+          ],
+          [
+            2,
+            9
+          ],
+          [
+            3,
+            9
+          ],
+          [
+            4,
+            9
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            6,
+            9
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            9,
+            9
+          ]
+        ],
+        "clue": "heisa om katrien",
+        "r": 0,
+        "c": 9
+      },
+      {
+        "n": 15,
+        "word": "ZE",
+        "cells": [
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 3,
+        "c": 4
+      },
+      {
+        "n": 16,
+        "word": "SCHUUR",
+        "cells": [
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            7,
+            0
+          ],
+          [
+            8,
+            0
+          ],
+          [
+            9,
+            0
+          ]
+        ],
+        "clue": "Hé schilder, doe dat in dat gebouw!",
+        "r": 4,
+        "c": 0
+      },
+      {
+        "n": 18,
+        "word": "RATS",
+        "cells": [
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            7,
+            7
+          ]
+        ],
+        "clue": "Dit knaagdier is heel stijf",
+        "r": 4,
+        "c": 7
+      },
+      {
+        "n": 20,
+        "word": "AA",
+        "cells": [
+          [
+            5,
+            8
+          ],
+          [
+            6,
+            8
+          ]
+        ],
+        "clue": "eerste rivier, of twee",
+        "r": 5,
+        "c": 8
+      },
+      {
+        "n": 23,
+        "word": "ERE",
+        "cells": [
+          [
+            7,
+            6
+          ],
+          [
+            8,
+            6
+          ],
+          [
+            9,
+            6
+          ]
+        ],
+        "clue": "omgekeerd loven",
+        "r": 7,
+        "c": 6
+      },
+      {
+        "n": 25,
+        "word": "UI",
+        "cells": [
+          [
+            8,
+            1
+          ],
+          [
+            9,
+            1
+          ]
+        ],
+        "clue": "hangt daar onder een koe",
+        "r": 8,
+        "c": 1
+      },
+      {
+        "n": 26,
+        "word": "RE",
+        "cells": [
+          [
+            8,
+            2
+          ],
+          [
+            9,
+            2
+          ]
+        ],
+        "clue": "tweede noot",
+        "r": 8,
+        "c": 2
+      },
+      {
+        "n": 27,
+        "word": "IK",
+        "cells": [
+          [
+            8,
+            8
+          ],
+          [
+            9,
+            8
+          ]
+        ],
+        "clue": "dummy omschrijving",
+        "r": 8,
+        "c": 8
+      }
+    ]
+  }
+}
